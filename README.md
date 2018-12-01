@@ -1,2 +1,1 @@
 # service-queue-app
-SQ
