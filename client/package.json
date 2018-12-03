@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "1.0.0",
-  "description": "Service Queue's client",
+  "description": "Service Queue's client application",
   "author": "Dmytro Omelyan (dima.omelyan@gmail.com)",
   "private": true,
   "scripts": {
