@@ -5,6 +5,7 @@
 	"main": "app.js",
 	"scripts": {
 		"start": "nodemon src\\app.js --exec \"npm run lint && node\"",
+		"run": "nodemon src\\app.js --exec \"npm run lint && node\"",
 		"lint": ".\\node_modules\\.bin\\eslint **\\*.js"
 	},
 	"author": "Dmytro Omelyan (dima.omelyan@gmail.com)",
@@ -13,7 +14,10 @@
 		"body-parser": "^1.18.3",
 		"cors": "^2.8.5",
 		"express": "^4.16.4",
-		"morgan": "^1.9.1"
+		"joi": "^14.3.0",
+		"morgan": "^1.9.1",
+		"sequelize": "^4.41.2",
+		"sqlite3": "^4.0.4"
 	},
 	"devDependencies": {
 		"nodemon": "^1.18.7",

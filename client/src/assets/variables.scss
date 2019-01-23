@@ -1,0 +1,40 @@
+// Margins
+$ma-factor: 4 / 3;
+$ma-1: 1em * $ma-factor;
+$ma-12: 1 / 2 * $ma-1;
+$ma-13: 1 / 3 * $ma-1;
+$ma-14: 1 / 4 * $ma-1;
+$ma-23: 2 / 3 * $ma-1;
+$ma-34: 3 / 4 * $ma-1;
+$ma-43: 4 / 3 * $ma-1;
+$ma-53: 5 / 3 * $ma-1;
+
+// Paddings
+$pa-factor: 1;
+$pa-1: 1em * $pa-factor;
+$pa-12: 1 / 2 * $pa-1;
+$pa-13: 1 / 3 * $pa-1;
+$pa-14: 1 / 4 * $pa-1;
+$pa-10: 1 / 10 * $pa-1;
+$pa-23: 2 / 3 * $pa-1;
+$pa-34: 3 / 4 * $pa-1;
+$pa-43: 4 / 3 * $pa-1;
+
+// Timing
+$an-factor: 1;
+$an-1: 1s * $an-factor;
+$an-2: 2 * $an-1;
+$an-12: 1 / 2 * $an-1;
+$an-13: 1 / 3 * $an-1;
+$an-14: 1 / 4 * $an-1;
+$an-15: 1 / 5 * $an-1;
+$an-23: 2 / 3 * $an-1;
+$an-34: 3 / 4 * $an-1;
+
+// Font sizes
+$fs-1: 1em;
+$fs-2: 2em;
+$fs-12: 1 / 2 * $fs-1;
+$fs-13: 1 / 3 * $fs-1;
+$fs-23: 2 / 3 * $fs-1;
+$fs-53: 5 / 3 * $fs-1;
