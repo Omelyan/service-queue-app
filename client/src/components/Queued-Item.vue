@@ -1,30 +1,80 @@
 <template>
   <li>
-    <div class="countdown">
-      <span class="label"></span><!--
-   --><span class="symbol">↑</span><!--
-   --><span class="timer">
-        <span class="hours">{{ Math.floor(item.left / 60) }}:</span><!--
-     --><span class="minutes">{{ item.left % 60 }}&thinsp;</span><!--
-     --><span class="units">{{ units }}</span>
+    <div :class="['countdown', { 'status': label }]">
+      <span class="symbol" @animationend="$emit('update:symbol', 0)" v-if="symbol && !label">{{ String.fromCharCode(symbol) }}</span><!--
+
+   --><span :class="['label', state]" v-if="label">{{ label }}</span><!--
+
+   --><span :class="['timer', { blinking }]" @animationend="blinking = false" v-else>
+        <span class="hours" v-if="hours">{{
+          hours + (minutes ? ':' : '&thinsp;')
+        }}</span><!--
+
+     --><span class="minutes" v-if="minutes">{{
+          String('0' + minutes).slice(-2) + (hours ? '' : '&thinsp;')
+        }}</span><!--
+
+     --><span class="units" v-if="!(hours * minutes)">{{ units }}</span>
       </span>
     </div><!--
- --><div class="plate md-elevation-7">{{ item.plate }}</div>
+
+ --><div :class="['plate md-elevation-7', { swinging }]" @animationend="swinging = false">{{ plate }}</div>
   </li>
 </template>
 
 <script>
 export default {
   props: {
-    item: {
-      type: Object,
+    state: String,
+    symbol: Number,
+    updated: Number,
+    left: {
+      type: Number,
+      required: true
+    },
+    plate: {
+      type: String,
       required: true
     }
   },
 
+  data: function () {
+    return {
+      swinging: false,
+      blinking: false
+    }
+  },
+
+  watch: {
+    updated () {
+      this.blinking = this.swinging = true
+    }
+  },
+
   computed: {
+    label () {
+      switch (this.state) {
+        case 'success':
+          return 'виконано'
+        case 'postponed':
+          return 'відкладено'
+        case 'error':
+          return 'скасовано'
+        default:
+          return this.left < 15 ? 'завершення робіт' : null
+      }
+    },
+
+    hours () {
+      return Math.trunc(this.left / 60)
+    },
+
+    minutes () {
+      return this.left % 60
+    },
+
     units () {
-      return 'хв'
+      return this.hours ? 'год' : 'хв'
     }
   }
 }
@@ -40,9 +90,28 @@ export default {
   align-items: baseline;
   padding: 0 $pa-34;
 
+  &.status {
+    align-self: center;
+    .label {
+      word-break: break-word;
+      text-transform: lowercase;
+      &.success, &.error {
+        margin-left: -$pa-34;
+        padding: $pa-10 $pa-12 $pa-14 $pa-13;
+        clip-path: polygon(0% 0%, calc(100% - #{$pa-13}) 0%, 100% 50%, calc(100% - #{$pa-13}) 100%, 0% 100%);
+      }
+      &.postponed {
+        opacity: .8;
+      }
+    }
+  }
+
   .symbol {
     margin-right: $ma-14;
     align-self: center;
+    color: var(--v-error-lighten5);
+    opacity: 0;
+    animation: ignition $an-2 ease calc(5 * 60 / 2);
   }
 
   .timer {
@@ -77,7 +146,7 @@ $swings: 8;
 $swinging-degree: 15deg;
 
 .swinging {
-  animation: swinging $an-1 * $swings cubic-bezier(0.45, 0.05, 0.55, 0.95) $an-23 1;
+  animation: swinging $an-1 * $swings cubic-bezier(0.45, 0.05, 0.55, 0.95) 1;
 }
 
 @keyframes swinging {
@@ -87,4 +156,17 @@ $swinging-degree: 15deg;
     }
   }
 }
+
+.blinking {
+  animation: blinking $an-1 ease 11;
+}
+
+@keyframes blinking {
+  50% { opacity: 0; }
+}
+
+@keyframes ignition {
+  33% { opacity: 1; }
+}
+
 </style>

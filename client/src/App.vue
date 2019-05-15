@@ -18,7 +18,7 @@ export default {
 }
 
 html {
-  overflow-y: hidden; // temp
+  overflow-y: hidden;
 }
 
 .v-btn {

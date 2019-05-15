@@ -5,7 +5,6 @@
 	"main": "app.js",
 	"scripts": {
 		"start": "nodemon src\\app.js --exec \"npm run lint && node\"",
-		"run": "nodemon src\\app.js --exec \"npm run lint && node\"",
 		"lint": ".\\node_modules\\.bin\\eslint **\\*.js"
 	},
 	"author": "Dmytro Omelyan (dima.omelyan@gmail.com)",
