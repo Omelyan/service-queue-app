@@ -14,14 +14,10 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700&subset=cyrillic');
 
 .application {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
 }
 
 html {
-  overflow-y: hidden;
-}
-
-.v-btn {
-  text-transform: initial;
+  overflow-y: hidden !important;
 }
 </style>
