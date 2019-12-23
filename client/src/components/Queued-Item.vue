@@ -5,20 +5,17 @@
 
    --><span :class="['label', state]" v-if="label">{{ label }}</span><!--
 
-   --><span :class="['timer', { blinking }]" @animationend="blinking = false" v-else>
-        <span class="hours" v-if="hours">{{
-          hours + (minutes ? ':' : '&thinsp;')
-        }}</span><!--
+   --><span :class="['timer', { blinking }]" @animationend="$emit('update:blinking', false)" v-else>
+        <span class="hours" v-if="hours">{{ hours }}</span><!--
 
-     --><span class="minutes" v-if="minutes">{{
-          String('0' + minutes).slice(-2) + (hours ? '' : '&thinsp;')
-        }}</span><!--
+     --><span class="minutes" v-if="minutes">
+          <span class="colon" v-if="hours">:</span>{{ String('0' + minutes).slice(-2) }}</span><!--
 
-     --><span class="units" v-if="!(hours * minutes)">{{ units }}</span>
+     --><span class="units" v-if="!(hours * minutes)">&thinsp;{{ units }}</span>
       </span>
     </div><!--
 
- --><div :class="['plate md-elevation-7', { swinging }]" @animationend="swinging = false">{{ plate }}</div>
+ --><div :class="['plate md-elevation-6', { swinging }]" @animationend="$emit('update:swinging', false)">{{ plate }}</div>
   </li>
 </template>
 
@@ -27,28 +24,10 @@ export default {
   props: {
     state: String,
     symbol: Number,
-    updated: Number,
-    left: {
-      type: Number,
-      required: true
-    },
-    plate: {
-      type: String,
-      required: true
-    }
-  },
-
-  data: function () {
-    return {
-      swinging: false,
-      blinking: false
-    }
-  },
-
-  watch: {
-    updated () {
-      this.blinking = this.swinging = true
-    }
+    swinging: Boolean,
+    blinking: Boolean,
+    left: { type: Number, required: true },
+    plate: { type: String, required: true }
   },
 
   computed: {
@@ -83,12 +62,11 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/variables.scss';
 
-// Item'
 .countdown {
   flex: 0 0 36%;
   display: flex;
   align-items: baseline;
-  padding: 0 $pa-34;
+  padding: 0 $pa-23;
 
   &.status {
     align-self: center;
@@ -96,7 +74,7 @@ export default {
       word-break: break-word;
       text-transform: lowercase;
       &.success, &.error {
-        margin-left: -$pa-34;
+        margin-left: -$pa-23;
         padding: $pa-10 $pa-12 $pa-14 $pa-13;
         clip-path: polygon(0% 0%, calc(100% - #{$pa-13}) 0%, 100% 50%, calc(100% - #{$pa-13}) 100%, 0% 100%);
       }
@@ -115,7 +93,7 @@ export default {
   }
 
   .timer {
-    > span {
+    span {
       display: inline-block;
     }
 
@@ -123,8 +101,13 @@ export default {
       font-size: $fs-53;
     }
 
+    .colon {
+      vertical-align: .12ch;
+      animation: blinking $an-1 ease 300;
+    }
+
     .units {
-      font-style: italic;
+      font-weight: lighter;
       opacity: .8;
     }
   }
@@ -133,7 +116,7 @@ export default {
 .plate {
   font-size: $fs-2;
   word-break: break-word;
-  margin-right: $ma-13;
+  margin-right: $ma-14;
   padding: $pa-10 $pa-13;
   border-radius: $pa-10;
   color: #333;
@@ -141,12 +124,22 @@ export default {
   text-transform: uppercase;
 }
 
-// Animations
+.queued-item-enter-active {
+  .swinging {
+    animation-play-state: paused;
+  }
+}
+
 $swings: 8;
-$swinging-degree: 15deg;
+$swinging-degree: 12deg;
 
 .swinging {
-  animation: swinging $an-1 * $swings cubic-bezier(0.45, 0.05, 0.55, 0.95) 1;
+  animation: swinging $an-1 * $swings cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  animation-play-state: paused;
+}
+
+.on .swinging {
+  animation-play-state: running;
 }
 
 @keyframes swinging {
@@ -168,5 +161,4 @@ $swinging-degree: 15deg;
 @keyframes ignition {
   33% { opacity: 1; }
 }
-
 </style>

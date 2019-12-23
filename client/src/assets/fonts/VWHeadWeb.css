@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "VW Head";
+  src: url("VWHeadWeb-Regular.woff") format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "VW Head";
+  src: url("VWHeadWeb-Light.woff") format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "VW Head";
+  src: url("VWHeadWeb-Bold.woff") format('woff');
+  font-weight: bold;
+  font-style: normal;
+}

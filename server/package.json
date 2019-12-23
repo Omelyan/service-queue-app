@@ -1,19 +1,20 @@
 {
-	"name": "server",
-	"version": "1.0.0",
+	"name": "service-queue-server",
+	"version": "1.0.1",
 	"description": "Service Queue's server application",
 	"main": "app.js",
+	"bin": "src/app.js",
 	"scripts": {
 		"start": "nodemon src\\app.js --exec \"npm run lint && node\"",
-		"lint": ".\\node_modules\\.bin\\eslint **\\*.js"
+		"lint": ".\\node_modules\\.bin\\eslint **\\*.js",
+		"build": "pkg -t node12-win-x64 ."
 	},
 	"author": "Dmytro Omelyan (dima.omelyan@gmail.com)",
 	"license": "MIT",
 	"dependencies": {
 		"body-parser": "^1.18.3",
 		"cors": "^2.8.5",
-		"express": "^4.16.4",
-		"morgan": "^1.9.1"
+		"express": "^4.16.4"
 	},
 	"devDependencies": {
 		"nodemon": "^1.18.7",

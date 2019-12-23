@@ -1,15 +1,14 @@
 const express = require('express')
-// const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const Queue = require('./routers/Queue')
-const config = require('./config/config')
 const app = express()
 
-// app.use(morgan('combined'))
+const Queue = require('./routers/Queue')
+const config = require('./config/config')
+
 app.use(bodyParser.json())
 app.use(cors())
 app.use('/queue', Queue)
 
 app.listen(config.port)
-console.log(`Service Queue' service started on port ${config.port}`)
+console.log(`Service Queue service started on port ${config.port}`)

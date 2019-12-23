@@ -8,16 +8,20 @@ function left (left, updated, time) {
 }
 
 function updateQueueItem (data, time) {
-  if (data.cID === undefined || data.plate === undefined || typeof (data.left) !== 'number') {
+  if (data.id === undefined || data.plate === undefined || typeof (data.left) !== 'number') {
     return false
   }
 
-  const plate = data.plate.toUpperCase().match(/[A-ZА-Я]+|[0-9]+/g).join(' ').substring(0, 10)
+  const plate = (data.plate.toUpperCase().match(/[A-ZА-Я]+|[0-9]+/g) || []).join(' ').substring(0, 10)
   if (plate.length < 4) {
     return false
   }
 
-  const item = queue.find(item => item.cID === data.cID)
+  if (data.left > 9.5 * 60) {
+    return false
+  }
+
+  const item = queue.find(item => item.id === data.id)
   if (item) {
     // update
     const difference = data.left - left(item.left, item.updated, time)
@@ -29,7 +33,7 @@ function updateQueueItem (data, time) {
   } else {
     // new one
     queue.push({
-      cID: data.cID,
+      id: data.id,
       left: data.left,
       state: data.state,
       plate: plate,
@@ -46,7 +50,7 @@ setInterval(function () {
   const currentTime = Date.now()
 
   for (let index = queue.length; index--;) {
-    if (left(queue[index].left, queue[index].updated, currentTime) < -90) {
+    if (left(queue[index].left, queue[index].updated, currentTime) <= -60) {
       queue.splice(index, 1)
     }
   }

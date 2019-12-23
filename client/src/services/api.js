@@ -1,5 +1,6 @@
 import axios from 'axios'
+import config from '../assets/config'
 
 export const HTTP = axios.create({
-  baseURL: 'http://localhost:8081/'
+  baseURL: `${config.serverURL}:${config.serverPort}/`
 })
