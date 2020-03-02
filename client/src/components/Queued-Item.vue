@@ -6,12 +6,19 @@
    --><span :class="['label', state]" v-if="label">{{ label }}</span><!--
 
    --><span :class="['timer', { blinking }]" @animationend="$emit('update:blinking', false)" v-else>
-        <span class="hours" v-if="hours">{{ hours }}</span><!--
+        <span class="deadline" v-if="left > 60">
+          <span class="hours">{{ deadlineHours }}</span><!--
 
-     --><span class="minutes" v-if="minutes">
-          <span class="colon" v-if="hours">:</span>{{ String('0' + minutes).slice(-2) }}</span><!--
+       --><span class="minutes"><span class="colon" />{{ deadlineMinutes }}</span>
+        </span><!--
 
-     --><span class="units" v-if="!(hours * minutes)">&thinsp;{{ units }}</span>
+     --><span v-else>
+          <span class="hours" v-if="hours">{{ hours }}</span><!--
+
+       --><span class="minutes" v-if="minutes"><span class="colon" v-if="hours" />{{ String('0' + minutes).slice(-2) }}</span><!--
+
+       --><span class="units" v-if="!(hours * minutes)">&thinsp;{{ units }}</span>
+        </span>
       </span>
     </div><!--
 
@@ -26,6 +33,7 @@ export default {
     symbol: Number,
     swinging: Boolean,
     blinking: Boolean,
+    deadline: { type: Date, required: true },
     left: { type: Number, required: true },
     plate: { type: String, required: true }
   },
@@ -54,6 +62,14 @@ export default {
 
     units () {
       return this.hours ? 'год' : 'хв'
+    },
+
+    deadlineHours () {
+      return String('0' + this.deadline.getHours()).slice(-2)
+    },
+
+    deadlineMinutes () {
+      return String('0' + this.deadline.getMinutes()).slice(-2)
     }
   }
 }
@@ -102,22 +118,32 @@ export default {
     }
 
     .colon {
-      vertical-align: .12ch;
+      &::before {
+        content: ":";
+      }
+
+      vertical-align: .07ch;
       animation: blinking $an-1 ease 300;
     }
 
     .units {
       font-weight: lighter;
-      opacity: .8;
     }
+
+    .deadline {
+      color: white;
+    }
+
+    color: var(--v-error-lighten5);
   }
 }
 
 .plate {
   font-size: $fs-2;
+  line-height: 90%;
   word-break: break-word;
   margin-right: $ma-14;
-  padding: $pa-10 $pa-13;
+  padding: $pa-17 $pa-13 $pa-16;
   border-radius: $pa-10;
   color: #333;
   background-color: white;

@@ -35,6 +35,7 @@
             :symbol.sync="item.symbol"
             :swinging.sync="item.swinging"
             :blinking.sync="item.blinking"
+            :deadline="item.deadline"
             :left="calculate(item)"
             :plate="item.plate"
             />
@@ -97,13 +98,14 @@ export default {
 
   methods: {
     update ({ items = [], timeStamp = 0 }) {
-      const queueItem = (index, replace, item) => this.queue.splice(index, replace, {
+      const queueItem = (index, replace, item) => void this.queue.splice(index, replace, {
         id: item.id,
         left: item.left,
         state: item.state,
         plate: item.plate,
         symbol: item.symbol,
         updated: item.updated,
+        deadline: new Date(item.updated + 60000 * item.left),
         swinging: true,
         blinking: true
       })

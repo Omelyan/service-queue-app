@@ -1,4 +1,0 @@
-20190417: fix server' and client' time synchronization (client's update method: calculate item.left)
-20190422: предусмотреть несколько заявок по одному автомобилю
-20190422: сделать выравнивание списка вертикально по центру экрана
-20191130: убрать window.app в main.js
